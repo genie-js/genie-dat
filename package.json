@@ -1,0 +1,46 @@
+{
+  "name": "genie-dat",
+  "description": "read and write age of empires .dat files",
+  "version": "0.0.0",
+  "author": "Renée Kooi <renee@kooi.me>",
+  "bugs": {
+    "url": "https://github.com/goto-bus-stop/genie-dat/issues"
+  },
+  "dependencies": {
+    "awestruct": "^1.0.0",
+    "simple-assign": "^0.1.0"
+  },
+  "devDependencies": {
+    "buble": "^0.19.3",
+    "glob": "^7.1.2",
+    "standard": "^11.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.0.0"
+  },
+  "homepage": "https://github.com/goto-bus-stop/genie-dat",
+  "keywords": [
+    "age-of-empires",
+    "aoc",
+    "aoe",
+    "dat",
+    "genie",
+    "genie-engine",
+    "read",
+    "write"
+  ],
+  "license": "LGPL-3.0",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goto-bus-stop/genie-dat.git"
+  },
+  "scripts": {
+    "build": "buble src -o lib",
+    "test": "standard && node test | tap-spec"
+  },
+  "standard": {
+    "ignore": [
+      "lib/**/*.js"
+    ]
+  }
+}
