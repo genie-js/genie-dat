@@ -1,7 +1,7 @@
 {
   "name": "genie-dat",
   "description": "read and write age of empires .dat files",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Renée Kooi <renee@kooi.me>",
   "bugs": {
     "url": "https://github.com/goto-bus-stop/genie-dat/issues"
