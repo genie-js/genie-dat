@@ -84,9 +84,9 @@ const ifVersion = (test, consequent) =>
   }, consequent)
 
 function getTerrainCount () {
-  // 55 in SWGB
-  // 100 if AK
-  // 32 if AoK
+  if (DatFile.version === 'swgb') return 55
+  if (DatFile.version === 'african-kingdoms') return 100
+  if (DatFile.version !== 'aoc') return 32
   return 42
 }
 

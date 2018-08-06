@@ -3,23 +3,44 @@ const assign = require('simple-assign')
 const structures = require('./struct')
 const { DatFile } = structures
 
-function load (compressedBuffer, cb) {
+const versions = [
+  'aok',
+  'aoc',
+  'african-kingdoms',
+  'swgb'
+]
+
+function check (opts) {
+  if (opts.version && versions.indexOf(opts.version) === -1) {
+    throw new Error(`genie-dat: invalid version: ${opts.version}`)
+  }
+}
+
+function load (compressedBuffer, opts = {}, cb) {
+  check(opts)
   inflateRaw(compressedBuffer, (err, uncompressedBuffer) => {
     if (err) return cb(err)
     try {
+      DatFile.version = opts.version || 'aoc'
       cb(null, DatFile(uncompressedBuffer))
     } catch (err) {
       cb(err)
+    } finally {
+      DatFile.version = 'aoc'
     }
   })
 }
 
-function loadRaw (uncompressedBuffer, cb) {
+function loadRaw (uncompressedBuffer, opts = {}, cb) {
+  check(opts)
   process.nextTick(() => {
     try {
+      DatFile.version = opts.version || 'aoc'
       cb(null, DatFile(uncompressedBuffer))
     } catch (err) {
       cb(err)
+    } finally {
+      DatFile.version = 'aoc'
     }
   })
 }
