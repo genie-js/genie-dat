@@ -17,6 +17,10 @@ function check (opts) {
 }
 
 function load (compressedBuffer, opts = {}, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
   check(opts)
   inflateRaw(compressedBuffer, (err, uncompressedBuffer) => {
     if (err) return cb(err)
@@ -32,6 +36,10 @@ function load (compressedBuffer, opts = {}, cb) {
 }
 
 function loadRaw (uncompressedBuffer, opts = {}, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
   check(opts)
   process.nextTick(() => {
     try {
