@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "buble src -o lib",
-    "test": "standard && node test | tap-spec"
+    "test": "standard && node -r buble/register test | tap-spec"
   },
   "standard": {
     "ignore": [
