@@ -13,6 +13,7 @@
   "devDependencies": {
     "buble": "^0.19.3",
     "glob": "^7.1.2",
+    "rimraf": "^2.6.2",
     "standard": "^11.0.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.0.0"
@@ -36,7 +37,7 @@
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "buble src -o lib",
+    "build": "rimraf lib && buble src -o lib",
     "test": "standard && node -r buble/register test | tap-spec"
   },
   "standard": {
