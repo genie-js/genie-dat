@@ -35,6 +35,7 @@
     "url": "https://github.com/goto-bus-stop/genie-dat.git"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "buble src -o lib",
     "test": "standard && node -r buble/register test | tap-spec"
   },
