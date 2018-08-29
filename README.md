@@ -1,5 +1,7 @@
 # genie-dat
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/goto-bus-stop/genie-dat.svg)](https://greenkeeper.io/)
+
 read and write age of empires .dat files
 
 [Install](#install) - [Usage](#usage) - [Supported Formats](#supported-formats) -
