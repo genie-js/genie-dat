@@ -1,5 +1,4 @@
 const struct = require('awestruct')
-const dynamicArray = require('./dynamicArray')
 const t = struct.types
 
 const ResourceStorage = struct([
@@ -86,7 +85,7 @@ const StaticObject = struct([
     ['z', t.float]
   ])],
   ['resourceStorage', t.array(3, ResourceStorage)],
-  ['damageGraphics', dynamicArray(t.int8, DamageGraphic)],
+  ['damageGraphics', t.dynarray(t.int8, DamageGraphic)],
   ['selectionSound', t.int16],
   ['dyingSound', t.int16],
   ['oldAttackMode', t.int8],
@@ -144,8 +143,8 @@ const HitType = struct([
 const ProjectileObject = struct([
   ActionObject,
   ['defaultArmor', t.int16],
-  ['attacks', dynamicArray(t.uint16, HitType)],
-  ['armors', dynamicArray(t.uint16, HitType)],
+  ['attacks', t.dynarray(t.uint16, HitType)],
+  ['armors', t.dynarray(t.uint16, HitType)],
   ['boundaryId', t.int16],
   ['weaponRangeMax', t.float],
   ['blastRange', t.float],

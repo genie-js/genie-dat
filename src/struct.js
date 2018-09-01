@@ -17,8 +17,6 @@ const {
   TreeObject,
   TriageObject
 } = require('./object')
-const dynamicArray = require('./dynamicArray')
-const dynamicString = require('./dynamicString')
 const t = struct.types
 
 // Struct.types.array but it adds an $index property
@@ -364,7 +362,7 @@ const TechEffect = struct([
 
 const Tech = struct([
   ['name', t.char(31)],
-  ['effects', dynamicArray(t.uint16, TechEffect)]
+  ['effects', t.dynarray(t.uint16, TechEffect)]
 ])
 
 const ObjectCommand = struct([
@@ -402,7 +400,7 @@ const ObjectCommand = struct([
 const ObjectHeader = struct([
   ['exists', t.bool],
   t.if('exists', struct([
-    ['commands', dynamicArray(t.uint16, ObjectCommand)]
+    ['commands', t.dynarray(t.uint16, ObjectCommand)]
   ]))
 ])
 
@@ -442,9 +440,9 @@ const Research = struct([
   ['languageDllHelp', t.int32],
   ['languageDllTechTree', t.int32],
   ['hotkey', t.int32],
-  ['name', dynamicString(t.uint16)]
+  ['name', t.dynstring(t.uint16)]
   // SWGB
-  // ['name2', dynamicString(t.uint16)]
+  // ['name2', t.dynstring(t.uint16)]
 ])
 
 const DatFile = struct([
@@ -454,8 +452,8 @@ const DatFile = struct([
   ['terrainTables', t.array('terrainRestrictionCount', t.int32)],
   ['terrainPassGraphicPointers', t.array('terrainRestrictionCount', t.int32)],
   ['terrainRestrictions', t.array('terrainRestrictionCount', TerrainRestriction('terrainCount'))],
-  ['playerColors', dynamicArray(t.uint16, PlayerColor)],
-  ['sounds', dynamicArray(t.uint16, Sound)],
+  ['playerColors', t.dynarray(t.uint16, PlayerColor)],
+  ['sounds', t.dynarray(t.uint16, Sound)],
   ['graphicCount', t.uint16],
   ['graphicPtrs', t.array('graphicCount', t.uint32)],
   ['graphics', holeyArray('graphicCount', 'graphicPtrs', Graphic)],
@@ -501,11 +499,11 @@ const DatFile = struct([
   ['randomMapPointer', t.uint32],
   ['randomMapInfo', t.array('randomMapCount', RandomMapInfo)],
   ['randomMaps', t.array('randomMapCount', RandomMap)],
-  ['techs', dynamicArray(t.uint32, Tech)],
+  ['techs', t.dynarray(t.uint32, Tech)],
   // TODO Unit lines for SWGB
-  ['objectHeaders', dynamicArray(t.uint32, ObjectHeader)],
-  ['civilizations', dynamicArray(t.uint16, Civilization)],
-  ['researches', dynamicArray(t.uint16, Research)]
+  ['objectHeaders', t.dynarray(t.uint32, ObjectHeader)],
+  ['civilizations', t.dynarray(t.uint16, Civilization)],
+  ['researches', t.dynarray(t.uint16, Research)]
 ])
 
 module.exports = {

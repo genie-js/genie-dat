@@ -7,7 +7,7 @@
     "url": "https://github.com/goto-bus-stop/genie-dat/issues"
   },
   "dependencies": {
-    "awestruct": "^1.0.0",
+    "awestruct": "^1.1.0",
     "simple-assign": "^0.1.0"
   },
   "devDependencies": {
