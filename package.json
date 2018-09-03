@@ -38,7 +38,8 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "rimraf lib && buble src -o lib",
-    "test": "standard && node -r buble/register test | tap-spec"
+    "test": "node -r buble/register test | tap-spec",
+    "lint": "standard"
   },
   "standard": {
     "ignore": [
