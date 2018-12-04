@@ -1,12 +1,27 @@
 language: node_js
-sudo: false
+matrix:
+  include:
+    - os: linux
+      node_js: stable
+    - os: linux
+      node_js: 10
+    - os: linux
+      node_js: 8
+    - os: linux
+      node_js: 6
+    - os: linux
+      node_js: 4
+    - os: windows
+      node_js: latest
+    - os: windows
+      node_js: 10
+    - os: windows
+      node_js: 8
+    - os: windows
+      node_js: 6
+    - os: windows
+      node_js: 4
 
 script:
   - npm test
-  - 'if [ $TRAVIS_NODE_VERSION == stable ]; then npm run lint; fi'
-
-node_js:
-  - 10
-  - 8
-  - 6
-  - 4
+  - 'if [ $TRAVIS_NODE_VERSION = stable ]; then npm run lint; fi'
