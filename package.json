@@ -4,7 +4,7 @@
   "version": "0.3.0",
   "author": "Renée Kooi <renee@kooi.me>",
   "bugs": {
-    "url": "https://github.com/goto-bus-stop/genie-dat/issues"
+    "url": "https://github.com/genie-js/genie-dat/issues"
   },
   "dependencies": {
     "awestruct": "^1.1.0",
@@ -18,7 +18,7 @@
     "tap-spec": "^5.0.0",
     "tape": "^4.0.0"
   },
-  "homepage": "https://github.com/goto-bus-stop/genie-dat",
+  "homepage": "https://github.com/genie-js/genie-dat",
   "keywords": [
     "age-of-empires",
     "aoc",
@@ -33,7 +33,7 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/goto-bus-stop/genie-dat.git"
+    "url": "https://github.com/genie-js/genie-dat.git"
   },
   "scripts": {
     "prepare": "npm run build",

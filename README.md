@@ -11,8 +11,8 @@ read and write age of empires .dat files
 
 [npm-image]: https://img.shields.io/npm/v/genie-dat.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/genie-dat
-[travis-image]: https://img.shields.io/travis/com/goto-bus-stop/genie-dat.svg?style=flat-square
-[travis-url]: https://travis-ci.com/goto-bus-stop/genie-dat
+[travis-image]: https://img.shields.io/travis/com/genie-js/genie-dat.svg?style=flat-square
+[travis-url]: https://travis-ci.com/genie-js/genie-dat
 [standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [standard-url]: http://npm.im/standard
 
@@ -60,7 +60,7 @@ Decompress and load `buffer`, eg. a raw .dat file.
 `cb` is a Node-style callback receiving `(err, dat)`.
 `dat` is a plain object representing the dat file contents. `console.log()` it to find out what's in it. There is a lot of junk, some of the more useful properties are:
 
- - `playerColors` - Player colours, mostly offsets into the main [palette](https://github.com/goto-bus-stop/jascpal) file
+ - `playerColors` - Player colours, mostly offsets into the main [palette](https://github.com/genie-js/jascpal) file
  - `techs` - Technology effects
  - `terrains` - Lists terrains
  - `civilizations` - Lists available civilizations
