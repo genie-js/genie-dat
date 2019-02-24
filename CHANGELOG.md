@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.4.0
+* Add root tech tree reading.
+* Rename some fields.
+
 ## 0.3.0
 * Add test for Portuguese Civ Mod.
 * Allow omitting the `opts` argument.
