@@ -9,14 +9,13 @@ const ResourceStorage = struct([
 
 const DamageGraphic = struct([
   ['graphicId', t.int16],
-  ['damagePercent', t.int8],
-  ['oldApplyMode', t.int8],
-  ['applyMode', t.int8]
+  ['damagePercent', t.int16],
+  ['flag', t.int8]
 ])
 
 const StaticObject = struct([
   ['nameLength', t.uint16],
-  ['id0', t.int16],
+  ['id', t.int16],
   ['languageDllName', t.uint16],
   ['languageDllCreation', t.uint16],
   ['class', t.int16],
@@ -66,20 +65,18 @@ const StaticObject = struct([
   ['minimapColor', t.int8],
   ['languageDllHelp', t.int32],
   ['languageDllHotkeyText', t.int32],
-  ['hotkeys', t.int32],
+  ['hotkeyId', t.int32],
   ['recycleable', t.int8],
   ['enableAutoGather', t.int8],
   ['doppelgangerOnDeath', t.int8],
   ['resourceGatherDrop', t.int8],
   ['occlusionMask', t.int8],
   ['obstructionType', t.int8],
-  ['selectionShape', t.int8],
-  ['trait', t.uint8],
-  ['civilization', t.int8],
-  ['attributePiece', t.int16],
-  ['selectionEffect', t.int8],
-  ['editorSelectionColor', t.uint8],
-  ['selectionShapePos', struct([
+  ['obstructionClass', t.int8],
+  ['flags', t.uint32],
+  ['drawFlag', t.int8],
+  ['drawColor', t.uint8],
+  ['outlineRadius', struct([
     ['x', t.float],
     ['y', t.float],
     ['z', t.float]
@@ -91,8 +88,8 @@ const StaticObject = struct([
   ['oldAttackMode', t.int8],
   ['convertTerrain', t.int8],
   ['name', t.char('nameLength')],
-  ['id1', t.int16],
-  ['id2', t.int16]
+  ['copyId', t.int16],
+  ['baseId', t.int16]
 ])
 
 const AnimatedObject = struct([
@@ -105,7 +102,7 @@ const DoppelgangerObject = struct([
 ])
 
 const MovingObject = struct([
-  DoppelgangerObject,
+  AnimatedObject,
   ['walkingGraphics0', t.int16],
   ['walkingGraphics1', t.int16],
   ['turnSpeed', t.float],
@@ -140,7 +137,7 @@ const HitType = struct([
   ['amount', t.int16]
 ])
 
-const ProjectileObject = struct([
+const BaseCombatObject = struct([
   ActionObject,
   ['defaultArmor', t.int16],
   ['attacks', t.dynarray(t.uint16, HitType)],
@@ -169,7 +166,7 @@ const ProjectileObject = struct([
 ])
 
 const MissileObject = struct([
-  ProjectileObject,
+  BaseCombatObject,
   ['projectileType', t.int8],
   ['smartMode', t.int8],
   ['dropAnimationMode', t.int8],
@@ -184,8 +181,8 @@ const ResourceCost = struct([
   ['enabled', t.int16]
 ])
 
-const LivingObject = struct([
-  ProjectileObject,
+const CombatObject = struct([
+  BaseCombatObject,
   ['resourceCost', t.array(3, ResourceCost)],
   ['creationTime', t.int16],
   ['creationLocationId', t.int16],
@@ -195,12 +192,12 @@ const LivingObject = struct([
   ['creatableType', t.int8],
   ['heroMode', t.int8],
   ['garrisonGraphic', t.int32],
-  ['attackProjectileCount', t.float],
-  ['attackProjectileMaxCount', t.int8],
-  ['attackProjectileSpawningAreaWidth', t.float],
-  ['attackProjectileSpawningAreaLength', t.float],
-  ['attackProjectileSpawningAreaRandomness', t.float],
-  ['attackProjectileSecondaryObjectId', t.int32],
+  ['volleyFireAmount', t.float],
+  ['maxAttacksInVolley', t.int8],
+  ['volleyXSpread', t.float],
+  ['volleyYSpread', t.float],
+  ['volleyStartSpreadAdjustment', t.float],
+  ['volleyMissileId', t.int32],
   ['specialGraphicid', t.int32],
   ['specialActivation', t.int8],
   ['pierceArmorDisplayed', t.int16]
@@ -213,7 +210,7 @@ const BuildingAnnex = struct([
 ])
 
 const BuildingObject = struct([
-  LivingObject,
+  CombatObject,
   ['constructionGraphicId', t.int16],
   ['snowGraphicId', t.int16],
   ['adjacentMode', t.int8],
@@ -247,9 +244,9 @@ const TriageObject = struct([
   t.if(s => s.type === 25, DoppelgangerObject),
   t.if(s => s.type === 30, MovingObject),
   t.if(s => s.type === 40, ActionObject),
-  t.if(s => s.type === 50, ProjectileObject),
+  t.if(s => s.type === 50, BaseCombatObject),
   t.if(s => s.type === 60, MissileObject),
-  t.if(s => s.type === 70, LivingObject),
+  t.if(s => s.type === 70, CombatObject),
   t.if(s => s.type === 80, BuildingObject),
   t.if(s => s.type === 90, TreeObject)
 ])
@@ -263,10 +260,10 @@ module.exports = {
   MovingObject,
   ActionObject,
   HitType,
-  ProjectileObject,
+  BaseCombatObject,
   MissileObject,
   ResourceCost,
-  LivingObject,
+  CombatObject,
   BuildingAnnex,
   BuildingObject,
   TreeObject,
