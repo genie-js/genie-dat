@@ -41,8 +41,6 @@ The data file format differs slightly between game versions. Versions supported 
 
 ## Limitations
 
-Currently this library does not yet read the tech tree data.
-
 Age of Kings, SWGB, and the AoE1 and AoE:DE files are not yet supported. The goal is to expand support for these formats in the future.
 
 Parsing a large binary file like this is quite slow, it takes about 6 seconds on my machine. This is probably not inherent and just has to do with the way this library is implemented on top of [awestruct](https://github.com/goto-bus-stop/awestruct). Hopefully awestruct's performance can be improved in the future. You should cache the result if you need it often.

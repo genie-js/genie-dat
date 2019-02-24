@@ -17,6 +17,7 @@ const {
   TreeObject,
   TriageObject
 } = require('./object')
+const TechTree = require('./tech-tree')
 const t = struct.types
 
 // Struct.types.array but it adds an $index property
@@ -503,7 +504,15 @@ const DatFile = struct([
   // TODO Unit lines for SWGB
   ['objectHeaders', t.dynarray(t.uint32, ObjectHeader)],
   ['civilizations', t.dynarray(t.uint16, Civilization)],
-  ['researches', t.dynarray(t.uint16, Research)]
+  ['researches', t.dynarray(t.uint16, Research)],
+  ['timeSlice', t.int32],
+  ['unitKillRate', t.int32],
+  ['unitKillTotal', t.int32],
+  ['unitHitPointRate', t.int32],
+  ['unitHitPointTotal', t.int32],
+  ['razingKillRate', t.int32],
+  ['razingKillTotal', t.int32],
+  ['techTree', TechTree]
 ])
 
 module.exports = {
