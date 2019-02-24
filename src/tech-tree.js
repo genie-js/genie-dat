@@ -5,7 +5,7 @@ const TechTreeCommon = struct([
   ['preregsCount', t.int8],
   t.skip(3), // padding
   ['preregIds', t.array(10, t.int32)],
-  ['preregTypes', t.array(10, t.int32)],
+  ['preregTypes', t.array(10, t.int32)]
 ])
 
 const TechTreeAge = struct([
