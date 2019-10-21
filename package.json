@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "buble": "^0.19.3",
-    "glob": "^7.1.2",
+    "glob": "^7.1.5",
     "rimraf": "^2.6.2",
     "standard": "^14.0.0",
     "tap-spec": "^5.0.0",
