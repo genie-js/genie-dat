@@ -3,7 +3,7 @@ const assign = require("simple-assign");
 const structures = require("./struct");
 const { DatFile } = structures;
 
-const versions = ["aok", "aoc", "african-kingdoms", "swgb"];
+const versions = ["aok", "aoc", "african-kingdoms", "aoe2de", "swgb"];
 
 function check(opts) {
   if (opts.version && versions.indexOf(opts.version) === -1) {

@@ -18,6 +18,7 @@ const {
   TriageObject
 } = require("./object");
 const TechTree = require("./tech-tree");
+const DebugString = require("./string");
 const t = struct.types;
 
 // Struct.types.array but it adds an $index property
@@ -76,6 +77,7 @@ const ifVersion = (test, consequent) =>
 function getTerrainCount() {
   if (DatFile.version === "swgb") return 55;
   if (DatFile.version === "african-kingdoms") return 100;
+  if (DatFile.version === "aoe2de") return 200;
   if (DatFile.version !== "aoc") return 32;
   return 42;
 }
@@ -106,7 +108,7 @@ const TerrainRestriction = count =>
   ]);
 
 const SoundItem = struct([
-  ["filename", t.char(13)],
+  ["filename", DebugString],
   ["resourceId", t.int32],
   ["probability", t.int16],
   ifVersion(
@@ -123,6 +125,7 @@ const Sound = struct([
   ["playDelay", t.int16],
   ["fileCount", t.uint16],
   ["cacheTime", t.int32],
+  ["totalProbability", t.int16],
   ["items", t.array("fileCount", SoundItem)]
 ]);
 
@@ -138,25 +141,28 @@ const GraphicDelta = struct([
 
 const SoundProp = struct([
   ["delay", t.int16],
-  ["id", t.int16]
+  ["id", t.int16],
+  ["wwiseSoundId", t.uint32]
 ]);
 
 const GraphicAttackSound = struct([["soundProps", t.array(3, SoundProp)]]);
 
 const Graphic = struct([
-  ["name", t.char(21)],
-  ["filename", t.char(13)],
+  ["name", DebugString],
+  ["filename", DebugString],
+  ["particleEffectName", DebugString],
   ["slpId", t.int32],
   ["isLoaded", t.int8],
   ["oldColorFlag", t.int8],
   ["layer", t.int8],
   ["playerColor", t.int8],
   ["adaptColor", t.int8],
-  ["transparentSelection", t.uint8],
+  ["transparentSelection", t.int8],
   ["coordinates", t.array(4, t.int16)],
   ["deltaCount", t.uint16],
   ["soundId", t.int16],
-  ["attackSoundUsed", t.uint8],
+  ["wwiseSoundId", t.uint32],
+  ["attackSoundUsed", t.int8],
   ["frameCount", t.uint16],
   ["angleCount", t.uint16],
   ["speedAdjust", t.float],
@@ -198,11 +204,16 @@ const FrameData = struct([
 const Terrain = struct([
   ["enabled", t.bool],
   ["random", t.int8],
-  ["name0", t.char(13)], // 17 in SWGB
-  ["name1", t.char(13)], // 17 in SWGB
+  ["isWater", t.int8],
+  ["hideInEditor", t.int8],
+  ["stringId", t.int32],
+  ["name0", DebugString],
+  ["name1", DebugString],
   ["slpId", t.int32],
   ["shapePointer", t.int32],
   ["soundId", t.int32],
+  ["wwiseSoundId", t.uint32],
+  ["wwiseSoundStopId", t.uint32],
   ifVersion(
     v => true /* AOK and up */,
     struct([
@@ -210,6 +221,7 @@ const Terrain = struct([
       ["blendMode", t.int32]
     ])
   ),
+  ["overlayMaskName", DebugString],
   [
     "minimap",
     struct([
@@ -227,7 +239,7 @@ const Terrain = struct([
   ["terrainReplacementId", t.int16],
   ["rows", t.int16],
   ["columns", t.int16],
-  ["borders", t.array(getTerrainCount, t.int16)],
+  ["terrainUnitMaskedDensity", t.array(30, t.int16)],
   ["terrainUnitId", t.array(30, t.int16)],
   ["terrainUnitDensity", t.array(30, t.int16)],
   ["terrainPlacementFlag", t.array(30, t.int8)],
@@ -357,7 +369,7 @@ const TechEffect = struct([
 ]);
 
 const Tech = struct([
-  ["name", t.char(31)],
+  ["name", DebugString],
   ["effects", t.dynarray(t.uint16, TechEffect)]
 ]);
 
@@ -390,14 +402,16 @@ const ObjectCommand = struct([
   ["workSpriteId", t.int16],
   ["carrySpriteId", t.int16],
   ["resourceGatherSoundId", t.int16],
-  ["resourceDepositSoundId", t.int16]
+  ["resourceDepositSoundId", t.int16],
+  ["wwiseResourceGatherSoundId", t.uint32],
+  ["wwiseResourceDepositSoundId", t.uint32]
 ]);
 
 const ObjectHeader = struct([["exists", t.bool], t.if("exists", struct([["commands", t.dynarray(t.uint16, ObjectCommand)]]))]);
 
 const Civilization = struct([
   ["playerType", t.int8],
-  ["name", t.char(20)],
+  ["name", DebugString],
   ["resourcesCount", t.uint16],
   ["techTreeId", t.int16],
   ["teamBonusId", t.int16], // not in AOE1
@@ -431,7 +445,7 @@ const Research = struct([
   ["languageDllHelp", t.int32],
   ["languageDllTechTree", t.int32],
   ["hotkey", t.int32],
-  ["name", t.dynstring(t.uint16)]
+  ["name", DebugString]
   // SWGB
   // ['name2', t.dynstring(t.uint16)]
 ]);
@@ -446,7 +460,7 @@ const DatFile = struct([
   ["playerColors", t.dynarray(t.uint16, PlayerColor)],
   ["sounds", t.dynarray(t.uint16, Sound)],
   ["graphicCount", t.uint16],
-  ["graphicPtrs", t.array("graphicCount", t.uint32)],
+  ["graphicPtrs", t.array("graphicCount", t.int32)],
   ["graphics", holeyArray("graphicCount", "graphicPtrs", Graphic)],
   ["RGE_Map::vfptr", t.int32],
   ["mapPointer", t.int32],
@@ -457,8 +471,6 @@ const DatFile = struct([
   ["tileSizes", t.array(19, TileSize)],
   ["padding1", t.int16],
   ["terrains", t.array(getTerrainCount, Terrain)],
-  ["terrainBorders", t.array(16, TerrainBorder)],
-  ["mapRowOffset", t.int32],
   ["mapMinX", t.float],
   ["mapMinY", t.float],
   ["mapMaxX", t.float],
@@ -484,10 +496,8 @@ const DatFile = struct([
   ["anyFrameChange", t.int8],
   ["mapVisibleFlag", t.int8],
   ["fogFlag", t.int8],
-  ["terrainBlob0", t.array(21, t.uint8)], // 25 in SWGB
-  ["terrainBlob1", t.array(157, t.uint32)],
   ["randomMapCount", t.uint32],
-  ["randomMapPointer", t.uint32],
+  ["randomMapPointer", t.int32],
   ["randomMapInfo", t.array("randomMapCount", RandomMapInfo)],
   ["randomMaps", t.array("randomMapCount", RandomMap)],
   ["techs", t.dynarray(t.uint32, Tech)],

@@ -1,4 +1,5 @@
 const struct = require("awestruct");
+const DebugString = require("./string");
 const t = struct.types;
 
 const ResourceStorage = struct([
@@ -14,7 +15,6 @@ const DamageGraphic = struct([
 ]);
 
 const StaticObject = struct([
-  ["nameLength", t.uint16],
   ["id", t.int16],
   ["languageDllName", t.uint16],
   ["languageDllCreation", t.uint16],
@@ -38,6 +38,7 @@ const StaticObject = struct([
   ["trainSound", t.int16],
   ["damageSound", t.int16], // not in AOE1
   ["deadUnitId", t.int16],
+  ["bloodUnitId", t.int16],
   ["placementMode", t.int8],
   ["canBeBuiltOn", t.int8],
   ["iconId", t.int16],
@@ -90,13 +91,19 @@ const StaticObject = struct([
       ["z", t.float]
     ])
   ],
+  ["scenarioTrigger1", t.uint32],
+  ["scenarioTrigger2", t.uint32],
   ["resourceStorage", t.array(3, ResourceStorage)],
   ["damageGraphics", t.dynarray(t.int8, DamageGraphic)],
   ["selectionSound", t.int16],
   ["dyingSound", t.int16],
+  ["wwiseTrainSoundId", t.uint32],
+  ["wwiseDamageSoundId", t.uint32],
+  ["wwiseSelectionSoundId", t.uint32],
+  ["wwiseDyingSoundId", t.uint32],
   ["oldAttackMode", t.int8],
   ["convertTerrain", t.int8],
-  ["name", t.char("nameLength")],
+  ["name", DebugString],
   ["copyId", t.int16],
   ["baseId", t.int16]
 ]);
@@ -119,7 +126,8 @@ const MovingObject = struct([
   ["turnRadiusSpeed", t.float],
   ["maxYawPerSecondMoving", t.float],
   ["stationaryYawRevolutionTime", t.float],
-  ["maxYawPerSecondStationary", t.float]
+  ["maxYawPerSecondStationary", t.float],
+  ["minCollisionSizeMultiplier", t.float]
 ]);
 
 const ActionObject = struct([
@@ -132,6 +140,8 @@ const ActionObject = struct([
   ["taskByGroup", t.int8],
   ["commandSoundId", t.int16],
   ["stopSoundId", t.int16],
+  ["wwiseCommandSoundId", t.uint32],
+  ["wwiseStopSoundId", t.uint32],
   ["runPattern", t.int8]
   // ObjectCommands here for AOE1
 ]);
@@ -199,6 +209,8 @@ const CombatObject = struct([
   ["creatableType", t.int8],
   ["heroMode", t.int8],
   ["garrisonGraphic", t.int32],
+  ["spawningGraphic", t.int16],
+  ["upgradeGraphic", t.int16],
   ["volleyFireAmount", t.float],
   ["maxAttacksInVolley", t.int8],
   ["volleyXSpread", t.float],
@@ -220,6 +232,10 @@ const BuildingObject = struct([
   CombatObject,
   ["constructionGraphicId", t.int16],
   ["snowGraphicId", t.int16],
+  ["destructionGraphicId", t.int16],
+  ["destructionRubbleGraphicId", t.int16],
+  ["researchingGraphicId", t.int16],
+  ["researchCompletedGraphicId", t.int16],
   ["adjacentMode", t.int8],
   ["graphicsAngle", t.int16],
   ["disappearsWhenBuilt", t.int8],
@@ -233,6 +249,8 @@ const BuildingObject = struct([
   ["transformObjectId", t.int16],
   ["transformSoundId", t.int16],
   ["constructionSoundId", t.int16],
+  ["wwiseTransformSoundId", t.uint32],
+  ["wwiseConstructionSoundId", t.uint32],
   ["garrisonType", t.int8],
   ["garrisonHealRate", t.float],
   ["garrisonRepairRate", t.float],
